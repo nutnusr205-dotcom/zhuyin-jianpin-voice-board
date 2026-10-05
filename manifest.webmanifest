@@ -1,0 +1,23 @@
+{
+  "name": "注音簡拼發聲板",
+  "short_name": "注音簡拼",
+  "description": "聲母簡拼、詞句預測與動態反灰 AAC 發聲板",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4fbfb",
+  "theme_color": "#15bfc0",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
