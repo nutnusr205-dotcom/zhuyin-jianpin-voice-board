@@ -79,18 +79,23 @@ const SIG_INDEX=(()=>{
 function compose(input,limit=18){
   const n=input.length;if(!n)return [];
   const dp=Array.from({length:n+1},()=>[]);
-  dp[0]=[{text:"",score:0,parts:0}];
+  dp[0]=[{text:"",score:0,parts:0,multi:0}];
 
   function choices(sig){
     const raw=SIG_INDEX.get(sig)||[], out=[], seen=new Set();
     const preferred=[...(PREFERRED_PHRASE[sig]||[]),...(PREFERRED_BY_SIG[sig]||[])];
+
     for(const w of preferred){
       const hit=raw.find(x=>x[0]===w);
-      if(hit&&!seen.has(w)){out.push([hit[0],hit[1],Math.max(hit[2]||0,5000)]);seen.add(w)}
+      if(hit&&!seen.has(w)){out.push(hit);seen.add(w)}
     }
+
+    // For signatures spanning 2+ input symbols, retain many complete dictionary words.
+    // For a single initial, keep a smaller set so rare characters cannot swamp words.
+    const cap=sig.length>=2?60:16;
     for(const x of raw){
       if(!seen.has(x[0])){out.push(x);seen.add(x[0])}
-      if(out.length>=24)break;
+      if(out.length>=cap)break;
     }
     return out;
   }
@@ -100,38 +105,50 @@ function compose(input,limit=18){
     for(let j=i+1;j<=n;j++){
       const sig=input.slice(i,j), arr=choices(sig);
       if(!arr.length)continue;
-      for(const st of dp[i].slice(0,80)){
+      for(const st of dp[i].slice(0,100)){
         for(const x of arr){
-          const w=x[0], len=j-i;
-          let add=(x[2]||0)+len*900+naturalBonus(w);
-          if((PREFERRED_PHRASE[sig]||[]).includes(w))add+=30000;
-          if((PREFERRED_BY_SIG[sig]||[]).includes(w))add+=14000;
-          if(w.length>1)add+=9000+(w.length-1)*1800;
-          else add-=700;
+          const w=x[0], span=j-i;
+          let add=(x[2]||0)+naturalBonus(w);
+
+          // Fundamental rule: a real multi-character lexical chunk outranks
+          // the same initials assembled as unrelated single characters.
+          if(span>=2 && w.length>=2){
+            add += 26000 + span*9000 + w.length*2500;
+          }else{
+            add += 2500;
+            if(w.length===1)add -= 3500;
+          }
+
+          if((PREFERRED_PHRASE[sig]||[]).includes(w))add+=18000;
+          if((PREFERRED_BY_SIG[sig]||[]).includes(w))add+=9000;
+
           const text=st.text+w;
           let contextual=sentenceBonus(text);
-          if(text==="我要")contextual+=45000;
-          if(text==="我想")contextual+=40000;
-          if(text==="我要吃")contextual+=55000;
-          if(text==="我想吃")contextual+=50000;
-          if(text==="我要喝")contextual+=55000;
-          if(text==="我要吃飯")contextual+=90000;
-          if(text==="我要吃雞排")contextual+=90000;
-          dp[j].push({text,score:st.score+add+contextual,parts:st.parts+1});
+          if(text==="我要")contextual+=30000;
+          if(text==="我想")contextual+=30000;
+          if(text==="我要吃"||text==="我想吃"||text==="我要喝"||text==="我要去"||text==="我想去")contextual+=35000;
+
+          dp[j].push({
+            text,
+            score:st.score+add+contextual,
+            parts:st.parts+1,
+            multi:st.multi+((span>=2&&w.length>=2)?1:0)
+          });
         }
       }
     }
-    // prune every reachable position, preserving a larger beam
+
     for(let k=i+1;k<=n;k++){
-      if(dp[k].length>160){
-        dp[k].sort((a,b)=>b.score-a.score||a.parts-b.parts);
+      if(dp[k].length>240){
+        dp[k].sort((a,b)=>b.score-a.score||b.multi-a.multi||a.parts-b.parts);
         const uniq=new Map();
         for(const x of dp[k])if(!uniq.has(x.text))uniq.set(x.text,x);
-        dp[k]=[...uniq.values()].slice(0,120);
+        dp[k]=[...uniq.values()].slice(0,160);
       }
     }
   }
-  const out=dp[n].sort((a,b)=>b.score-a.score||a.parts-b.parts);
+
+  const out=dp[n].sort((a,b)=>b.score-a.score||b.multi-a.multi||a.parts-b.parts);
   const seen=new Set(),ans=[];
   for(const x of out){
     if(!seen.has(x.text)){seen.add(x.text);ans.push([x.text,input,x.score])}
@@ -176,4 +193,4 @@ function matches(){
   if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有候選字詞。</span>';
 }function renderKeys(){let b=$('#keys'),allow=nextAllowed();b.innerHTML='';LAYOUT.flat().forEach(k=>{if(k===null){let z=document.createElement('div');z.className='key blank';b.appendChild(z);return;}let x=document.createElement('button');x.className='key';x.textContent=k;x.disabled=!allow.has(k);x.onclick=()=>{seq+=k;phoneticSay(k);renderAll()};b.appendChild(x)});let d=document.createElement('button');d.className='key del';d.textContent='⌫';d.style.gridColumn='1 / span 2';d.onclick=()=>{if(seq)seq=seq.slice(0,-1);else{sentence=sentence.slice(0,-1);$('#sentence').textContent=sentence}renderAll()};b.appendChild(d)}
 const amap={'ㄅ':1,'ㄆ':2,'ㄇ':3,'ㄈ':4,'ㄉ':5,'ㄊ':6,'ㄋ':7,'ㄌ':8,'ㄍ':9,'ㄎ':10,'ㄏ':11,'ㄐ':12,'ㄑ':13,'ㄒ':14,'ㄓ':15,'ㄔ':16,'ㄕ':17,'ㄖ':18,'ㄗ':19,'ㄘ':20,'ㄙ':21,'ㄚ':22,'ㄛ':23,'ㄜ':24,'ㄝ':25,'ㄞ':26,'ㄟ':27,'ㄠ':28,'ㄡ':29,'ㄢ':30,'ㄣ':31,'ㄤ':32,'ㄥ':33,'ㄦ':34,'ㄧ':35,'ㄨ':36,'ㄩ':37};function phoneticSay(k){let n=amap[k];if(n)new Audio(`audio/zhuyin-${String(n).padStart(2,'0')}.mp3`).play().catch(()=>{})}function renderAll(){$('#sequence').textContent=seq?seq.split('').join('　'):'請按每個字的第一個注音';renderCandidates();renderKeys()}
-let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4.0.4');
+let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4.0.5');
