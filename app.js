@@ -59,6 +59,7 @@ const PREFERRED_PHRASE={
   "ㄨㄒ":["我想"],
   "ㄔㄈ":["吃飯"],
   "ㄐㄆ":["雞排"],
+  "ㄉㄒ":["東西"],
   "ㄎㄈ":["咖啡"],
   "ㄧㄌ":["飲料"],
   "ㄍㄌㄊㄋㄉㄒ":["國立臺南大學"],
@@ -84,15 +85,11 @@ function compose(input,limit=18){
   function choices(sig){
     const raw=SIG_INDEX.get(sig)||[], out=[], seen=new Set();
     const preferred=[...(PREFERRED_PHRASE[sig]||[]),...(PREFERRED_BY_SIG[sig]||[])];
-
     for(const w of preferred){
       const hit=raw.find(x=>x[0]===w);
       if(hit&&!seen.has(w)){out.push(hit);seen.add(w)}
     }
-
-    // For signatures spanning 2+ input symbols, retain many complete dictionary words.
-    // For a single initial, keep a smaller set so rare characters cannot swamp words.
-    const cap=sig.length>=2?60:16;
+    const cap=sig.length>=2?100:20;
     for(const x of raw){
       if(!seen.has(x[0])){out.push(x);seen.add(x[0])}
       if(out.length>=cap)break;
@@ -100,52 +97,51 @@ function compose(input,limit=18){
     return out;
   }
 
-  for(let i=0;i<n;i++){
-    if(!dp[i].length)continue;
-    for(let j=i+1;j<=n;j++){
-      const sig=input.slice(i,j), arr=choices(sig);
+  for(let end=1;end<=n;end++){
+    const bucket=[];
+    for(let start=0;start<end;start++){
+      if(!dp[start].length)continue;
+      const sig=input.slice(start,end), arr=choices(sig);
       if(!arr.length)continue;
-      for(const st of dp[i].slice(0,100)){
+
+      for(const st of dp[start]){
         for(const x of arr){
-          const w=x[0], span=j-i;
+          const w=x[0], span=end-start;
+          const isMulti=span>=2 && w.length>=2;
           let add=(x[2]||0)+naturalBonus(w);
 
-          // Fundamental rule: a real multi-character lexical chunk outranks
-          // the same initials assembled as unrelated single characters.
-          if(span>=2 && w.length>=2){
-            add += 26000 + span*9000 + w.length*2500;
+          if(isMulti){
+            add+=40000+span*12000+w.length*3000;
           }else{
-            add += 2500;
-            if(w.length===1)add -= 3500;
+            add+=3500;
+            if(w.length===1)add-=2500;
           }
 
-          if((PREFERRED_PHRASE[sig]||[]).includes(w))add+=18000;
+          if((PREFERRED_PHRASE[sig]||[]).includes(w))add+=22000;
           if((PREFERRED_BY_SIG[sig]||[]).includes(w))add+=9000;
 
           const text=st.text+w;
           let contextual=sentenceBonus(text);
-          if(text==="我要")contextual+=30000;
-          if(text==="我想")contextual+=30000;
-          if(text==="我要吃"||text==="我想吃"||text==="我要喝"||text==="我要去"||text==="我想去")contextual+=35000;
+          if(text==="我要"||text==="我想")contextual+=30000;
+          if(/^我(要|想)(吃|喝|去|買)/.test(text))contextual+=30000;
 
-          dp[j].push({
+          bucket.push({
             text,
             score:st.score+add+contextual,
             parts:st.parts+1,
-            multi:st.multi+((span>=2&&w.length>=2)?1:0)
+            multi:st.multi+(isMulti?1:0)
           });
         }
       }
     }
 
-    for(let k=i+1;k<=n;k++){
-      if(dp[k].length>240){
-        dp[k].sort((a,b)=>b.score-a.score||b.multi-a.multi||a.parts-b.parts);
-        const uniq=new Map();
-        for(const x of dp[k])if(!uniq.has(x.text))uniq.set(x.text,x);
-        dp[k]=[...uniq.values()].slice(0,160);
-      }
+    bucket.sort((a,b)=>b.score-a.score||b.multi-a.multi||a.parts-b.parts);
+    const uniq=new Map();
+    for(const x of bucket){
+      if(!uniq.has(x.text))uniq.set(x.text,x);
+      if(uniq.size>=500)break;
     }
+    dp[end]=[...uniq.values()];
   }
 
   const out=dp[n].sort((a,b)=>b.score-a.score||b.multi-a.multi||a.parts-b.parts);
@@ -193,4 +189,4 @@ function matches(){
   if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有候選字詞。</span>';
 }function renderKeys(){let b=$('#keys'),allow=nextAllowed();b.innerHTML='';LAYOUT.flat().forEach(k=>{if(k===null){let z=document.createElement('div');z.className='key blank';b.appendChild(z);return;}let x=document.createElement('button');x.className='key';x.textContent=k;x.disabled=!allow.has(k);x.onclick=()=>{seq+=k;phoneticSay(k);renderAll()};b.appendChild(x)});let d=document.createElement('button');d.className='key del';d.textContent='⌫';d.style.gridColumn='1 / span 2';d.onclick=()=>{if(seq)seq=seq.slice(0,-1);else{sentence=sentence.slice(0,-1);$('#sentence').textContent=sentence}renderAll()};b.appendChild(d)}
 const amap={'ㄅ':1,'ㄆ':2,'ㄇ':3,'ㄈ':4,'ㄉ':5,'ㄊ':6,'ㄋ':7,'ㄌ':8,'ㄍ':9,'ㄎ':10,'ㄏ':11,'ㄐ':12,'ㄑ':13,'ㄒ':14,'ㄓ':15,'ㄔ':16,'ㄕ':17,'ㄖ':18,'ㄗ':19,'ㄘ':20,'ㄙ':21,'ㄚ':22,'ㄛ':23,'ㄜ':24,'ㄝ':25,'ㄞ':26,'ㄟ':27,'ㄠ':28,'ㄡ':29,'ㄢ':30,'ㄣ':31,'ㄤ':32,'ㄥ':33,'ㄦ':34,'ㄧ':35,'ㄨ':36,'ㄩ':37};function phoneticSay(k){let n=amap[k];if(n)new Audio(`audio/zhuyin-${String(n).padStart(2,'0')}.mp3`).play().catch(()=>{})}function renderAll(){$('#sequence').textContent=seq?seq.split('').join('　'):'請按每個字的第一個注音';renderCandidates();renderKeys()}
-let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4.0.5');
+let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4.0.6');
