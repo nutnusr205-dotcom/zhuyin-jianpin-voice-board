@@ -37,7 +37,7 @@ function sentenceBonus(text){
 }
 
 
-const PREFERRED_BY_SIG={"ㄅ":["不","爸","白","杯","包","飽","病","幫","抱","被"],"ㄆ":["跑","怕","陪","朋","平","瓶","胖","排"],"ㄇ":["媽","沒","買","忙","慢","妹","門","米","馬"],"ㄈ":["飯","放","分","房","風","服","發","反"],"ㄉ":["的","到","對","等","大","東","點","多","帶","但","電","懂"],"ㄊ":["他","她","痛","頭","聽","停","天","太","同","腿","躺"],"ㄋ":["你","奶","拿","能","哪","那","尿","難","年","男","女"],"ㄌ":["了","來","冷","累","裡","離","路","臉","兩","老"],"ㄍ":["個","給","跟","過","高","更","剛","夠","關","感"],"ㄎ":["渴","看","可","開","快","口","哭","課","咖"],"ㄏ":["好","喝","回","會","很","還","後","換","紅","火"],"ㄐ":["就","家","叫","腳","見","今","幾","教","進","雞","急","近","記","間"],"ㄑ":["去","請","前","起","錢","親","氣","輕","全","球"],"ㄒ":["想","先","小","下","洗","學","休","謝","寫","心","新","現","笑","喜","醒","系"],"ㄓ":["這","只","找","知","直","指","紙","真","站","中","重","住","桌","張"],"ㄔ":["吃","出","車","穿","床","茶","唱","長","常"],"ㄕ":["是","手","上","水","說","睡","誰","什","時","少","身","書","生","事"],"ㄖ":["人","熱","讓","日","肉","認","入","軟"],"ㄗ":["在","再","走","做","坐","早","怎","最","嘴","字","自"],"ㄘ":["廁","才","從","次","菜","錯","餐","草"],"ㄙ":["送","三","四","所","算","隨","死","色"],"ㄧ":["要","有","一","也","用","又","已","以","眼","藥","衣","意"],"ㄨ":["我","外","玩","晚","問","往","完","忘","五","午","物"],"ㄩ":["雨","魚","語","月","原","遠","園","願","運","員"],"ㄚ":["啊","阿"],"ㄛ":["喔","哦"],"ㄜ":["餓","二","額"],"ㄝ":["也"],"ㄞ":["愛","矮"],"ㄟ":["欸"],"ㄠ":["要"],"ㄡ":["有","偶"],"ㄢ":["安","按"],"ㄣ":["恩"],"ㄤ":["昂"],"ㄥ":["嗯"],"ㄦ":["二","兒"]};
+const PREFERRED_BY_SIG={"ㄅ":["不","把","爸","被","白","百","本","比","別","幫","辦","包","杯","班","半","北","病","飽","抱","變","便"],"ㄆ":["朋","跑","怕","平","票","拍","排","陪","旁","碰","瓶","胖","皮","篇","便"],"ㄇ":["沒","媽","買","嗎","每","明","門","忙","慢","妹","米","馬","滿","名","面","美","夢"],"ㄈ":["飯","放","分","方","房","發","反","風","服","父","非","飛","份","法","費","福"],"ㄉ":["的","到","都","對","大","等","東","點","多","帶","但","地","電","店","動","懂","短","第"],"ㄊ":["他","她","痛","頭","天","聽","同","停","太","條","提","特","通","腿","躺","圖","體"],"ㄋ":["你","那","哪","能","拿","呢","奶","年","內","尿","女","男","南","難","牛","腦","念"],"ㄌ":["了","來","裡","離","兩","老","路","冷","累","臉","連","留","六","禮","零"],"ㄍ":["個","跟","給","高","過","更","剛","工","公","國","關","光","感","哥","狗","夠"],"ㄎ":["可","看","開","快","口","課","空","渴","咖","考","靠","哭","卡","客","褲","科"],"ㄏ":["好","喝","會","回","很","還","後","和","話","換","黑","紅","花","火","歡","孩"],"ㄐ":["就","家","叫","腳","見","今","幾","教","進","雞","急","近","記","間","件","久","九"],"ㄑ":["去","請","前","起","錢","親","氣","清","輕","球","全","騎","情","七","千"],"ㄒ":["想","先","小","下","洗","學","休","謝","寫","心","新","現","笑","喜","醒","系","像"],"ㄓ":["這","只","找","知","直","指","紙","真","站","中","種","重","住","準","桌","張"],"ㄔ":["吃","出","車","穿","床","茶","唱","長","常","超","差","春","充"],"ㄕ":["是","手","上","水","說","睡","誰","什","時","少","身","書","生","事","十","收"],"ㄖ":["人","熱","讓","日","肉","認","然","入","如","容","軟"],"ㄗ":["在","再","走","做","坐","早","怎","最","總","嘴","字","自","左","昨"],"ㄘ":["才","從","次","菜","錯","餐","廁","草","參"],"ㄙ":["三","四","送","所","算","隨","雖","死","色","速","思","司"],"ㄚ":["啊","阿"],"ㄛ":["喔","哦"],"ㄜ":["餓","二","額","惡"],"ㄝ":["也"],"ㄞ":["愛","矮"],"ㄟ":["欸"],"ㄠ":["要","熬"],"ㄡ":["有","偶"],"ㄢ":["安","按","暗","案"],"ㄣ":["恩"],"ㄤ":["昂"],"ㄥ":["嗯"],"ㄦ":["二","兒","而"],"ㄧ":["要","有","一","也","用","又","已","以","因","應","眼","藥","衣","意","音","右","夜"],"ㄨ":["我","外","玩","晚","問","往","完","忘","為","位","味","五","午","物","網"],"ㄩ":["與","雨","魚","語","月","原","遠","園","願","運","員","元","越","約"]};
 const PREFERRED_PHRASE={
   "ㄨㄧ":["我要"],
   "ㄨㄒ":["我想"],
@@ -168,14 +168,36 @@ function matches(){
   if(!s.size)Object.keys(CHAR_BY_INITIAL).forEach(k=>s.add(k));
   return s;
 }function renderCandidates(){
-let b=$('#cands');b.innerHTML='';if(!seq){b.innerHTML='<span style="color:#788;padding:8px">輸入簡拼後會出現教育部辭典＋AAC常用候選</span>';return}
-const exact=(SIG_INDEX.get(seq)||[]).slice().sort((a,b)=>(b[2]||0)-(a[2]||0)),all=[],seen=new Set();
-const preferred=[...(PREFERRED_PHRASE[seq]||[]),...(PREFERRED_BY_SIG[seq]||[])];
-for(const w of preferred){const h=exact.find(x=>x[0]===w);if(h&&!seen.has(w)){seen.add(w);all.push(h)}}
-for(const x of exact){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}}
-if(seq.length>1){for(const x of compose(seq,50)){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}}}
-all.forEach(([w])=>{const x=document.createElement('button');x.className='cand';x.textContent=w;x.onclick=()=>{sentence+=w;$('#sentence').textContent=sentence;say(w);seq='';renderAll()};b.appendChild(x)});
-if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有完整詞條，可繼續輸入簡拼組句。</span>';
+ let b=$('#cands');b.innerHTML='';
+ if(!seq){b.innerHTML='<span style="color:#788;padding:8px">輸入簡拼後會出現教育部辭典＋AAC常用候選</span>';return}
+ const exact=(SIG_INDEX.get(seq)||[]).slice(), all=[], seen=new Set();
+ const preferred=[...(PREFERRED_PHRASE[seq]||[]),...(PREFERRED_BY_SIG[seq]||[])];
+ const rank=new Map(preferred.map((w,i)=>[w,preferred.length-i]));
+ function complexity(w){
+   let p=0;
+   for(const ch of w){
+     const cp=ch.codePointAt(0);
+     if(cp>=0x3400&&cp<=0x4DBF)p+=8; // extension-A: usually less familiar
+     if(cp>=0xF900&&cp<=0xFAFF)p+=8; // compatibility ideographs
+   }
+   return p;
+ }
+ exact.sort((a,b)=>{
+   const aa=(a[2]||0)>=100000?1:0, bb=(b[2]||0)>=100000?1:0;
+   if(aa!==bb)return bb-aa;
+   const pa=rank.get(a[0])||0,pb=rank.get(b[0])||0;
+   if(pa!==pb)return pb-pa;
+   const ca=complexity(a[0]),cb=complexity(b[0]);
+   if(ca!==cb)return ca-cb;
+   return a[0].length-b[0].length;
+ });
+ for(const x of exact){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}}
+ if(seq.length>1){
+   for(const x of compose(seq,50)){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}}
+ }
+ all.forEach(([w])=>{const x=document.createElement('button');x.className='cand';x.textContent=w;
+   x.onclick=()=>{sentence+=w;$('#sentence').textContent=sentence;say(w);seq='';renderAll()};b.appendChild(x)});
+ if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有完整詞條，可繼續輸入簡拼組句。</span>';
 }function renderKeys(){let b=$('#keys'),allow=nextAllowed();b.innerHTML='';LAYOUT.flat().forEach(k=>{if(k===null){let z=document.createElement('div');z.className='key blank';b.appendChild(z);return;}let x=document.createElement('button');x.className='key';x.textContent=k;x.disabled=!allow.has(k);x.onclick=()=>{seq+=k;phoneticSay(k);renderAll()};b.appendChild(x)});let d=document.createElement('button');d.className='key del';d.textContent='⌫';d.style.gridColumn='1 / span 2';d.onclick=()=>{if(seq)seq=seq.slice(0,-1);else{sentence=sentence.slice(0,-1);$('#sentence').textContent=sentence}renderAll()};b.appendChild(d)}
 const amap={'ㄅ':1,'ㄆ':2,'ㄇ':3,'ㄈ':4,'ㄉ':5,'ㄊ':6,'ㄋ':7,'ㄌ':8,'ㄍ':9,'ㄎ':10,'ㄏ':11,'ㄐ':12,'ㄑ':13,'ㄒ':14,'ㄓ':15,'ㄔ':16,'ㄕ':17,'ㄖ':18,'ㄗ':19,'ㄘ':20,'ㄙ':21,'ㄚ':22,'ㄛ':23,'ㄜ':24,'ㄝ':25,'ㄞ':26,'ㄟ':27,'ㄠ':28,'ㄡ':29,'ㄢ':30,'ㄣ':31,'ㄤ':32,'ㄥ':33,'ㄦ':34,'ㄧ':35,'ㄨ':36,'ㄩ':37};function phoneticSay(k){let n=amap[k];if(n)new Audio(`audio/zhuyin-${String(n).padStart(2,'0')}.mp3`).play().catch(()=>{})}function renderAll(){$('#sequence').textContent=seq?seq.split('').join('　'):'請按每個字的第一個注音';renderCandidates();renderKeys()}
-let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=6.0.2');
+let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=6.0.3');
