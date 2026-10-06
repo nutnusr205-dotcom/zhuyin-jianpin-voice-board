@@ -256,7 +256,39 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
+
+<style id="responsive-v609-bigger-keys">
+/* iPad landscape: larger Zhuyin touch targets while preserving compact upper UI */
+@media (min-width: 900px) and (max-width: 1500px) and (orientation: landscape){
+  .keyboard{
+    padding:5px!important;
+    margin-top:3px!important;
+  }
+  .keys{
+    gap:4px!important;
+  }
+  .key{
+    min-height:66px!important;
+    height:66px!important;
+    font-size:38px!important;
+    font-weight:700!important;
+    padding:1px!important;
+    border-radius:14px!important;
+  }
+  /* reclaim vertical space so the larger four-row keyboard still fits better */
+  .card{padding-top:6px!important;padding-bottom:6px!important}
+  h1{margin-bottom:5px!important}
+  #cands{height:52px!important;min-height:48px!important;margin-bottom:2px!important}
+  .cand{height:43px!important;min-height:43px!important}
+  footer{margin-top:2px!important;padding-top:3px!important}
+}
+/* Do not apply the enlarged iPad keys to iPhone */
+@media (max-width: 767px){
+  .key{font-weight:inherit!important}
+}
+</style>
+
 </head><body><main><section class="panel"><h1>注音簡拼發聲板</h1><div class="top"><div id="sentence"></div><button class="big speak" id="speak">🔊</button><button class="big clear" id="clear">清除</button></div><div class="label">常用語（長按可儲存目前句子）</div><div id="favorites"></div><div class="label">簡拼輸入</div><div id="sequence">請按每個字的第一個注音</div><div class="hint">例如：「我要喝水」→ ㄨ　ㄧ　ㄏ　ㄕ；灰色按鍵表示目前沒有可接續的預測。</div><div class="label">預測詞句</div><div id="cands"></div></section><section class="keyboard"><div id="keys"></div></section><footer>
 <div class="dev-credit">國立臺南大學特教系 臧永佳 AI設計開發</div>
 <div class="source-credit">字音資料：教育部《國語辭典簡編本》（2026-09-29）；注音發音：教育部《國語注音符號手冊》（CC BY 4.0）</div>
-</footer></main><script src="app.js?v=6.0.8.3"></script></body></html>
+</footer></main><script src="app.js?v=6.0.9.3"></script></body></html>
