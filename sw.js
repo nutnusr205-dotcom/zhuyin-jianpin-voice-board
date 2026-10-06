@@ -2,7 +2,7 @@ const CACHE = "zhuyin-jianpin-v2-3";
 const ASSETS = [
   "./",
   "index.html",
-  "app.js?v=6.0.1.3",
+  "app.js?v=6.0.2.3",
   "manifest.webmanifest",
   "icon-192.png",
   "icon-512.png",
