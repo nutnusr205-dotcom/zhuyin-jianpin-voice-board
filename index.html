@@ -157,7 +157,106 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
+
+<style id="responsive-v608-ipad-landscape">
+/* iPad landscape: wide + low-height layout, designed for Safari's reduced viewport height */
+@media (min-width: 900px) and (max-width: 1500px) and (orientation: landscape){
+  body{padding:2px 4px 8px!important}
+  .wrap{
+    width:98.5vw!important;
+    max-width:none!important;
+    margin:0 auto!important;
+  }
+  .card{
+    padding:8px 14px!important;
+    border-radius:22px!important;
+    margin:0!important;
+  }
+  h1{
+    font-size:32px!important;
+    line-height:1.05!important;
+    margin:0 0 7px!important;
+  }
+  .top{gap:8px!important;margin-bottom:5px!important}
+  #sentence{
+    min-height:64px!important;
+    height:64px!important;
+    font-size:29px!important;
+    padding:6px 12px!important;
+  }
+  .speak,.clear{
+    min-width:72px!important;
+    width:72px!important;
+    min-height:64px!important;
+    height:64px!important;
+    font-size:22px!important;
+    padding:4px!important;
+  }
+  h2,h3,.label{
+    margin-top:5px!important;
+    margin-bottom:4px!important;
+    line-height:1.1!important;
+  }
+  .favrow{gap:7px!important;margin:3px 0 7px!important}
+  .fav{
+    min-height:50px!important;
+    height:50px!important;
+    font-size:19px!important;
+    padding:4px 7px!important;
+  }
+  #seq{
+    min-height:48px!important;
+    height:48px!important;
+    font-size:27px!important;
+    padding:5px 12px!important;
+  }
+  .hint{margin:2px 0 5px!important;line-height:1.15!important}
+  #cands{
+    min-height:52px!important;
+    height:58px!important;
+    margin-bottom:4px!important;
+    padding-top:1px!important;
+    padding-bottom:1px!important;
+  }
+  .cand{
+    min-height:46px!important;
+    height:46px!important;
+    font-size:21px!important;
+    padding:5px 12px!important;
+  }
+  .keyboard{
+    width:100%!important;
+    max-width:none!important;
+    margin-top:5px!important;
+    padding:7px!important;
+    border-radius:20px!important;
+  }
+  .keys{
+    width:100%!important;
+    max-width:none!important;
+    gap:5px!important;
+  }
+  .key{
+    min-height:58px!important;
+    height:58px!important;
+    font-size:31px!important;
+    padding:2px!important;
+    border-radius:13px!important;
+  }
+  footer{
+    margin-top:4px!important;
+    padding:5px 6px 7px!important;
+    font-size:14px!important;
+    line-height:1.25!important;
+  }
+}
+/* Keep phones independent */
+@media (max-width: 767px){
+  .wrap{width:100%!important}
+}
+</style>
+
 </head><body><main><section class="panel"><h1>注音簡拼發聲板</h1><div class="top"><div id="sentence"></div><button class="big speak" id="speak">🔊</button><button class="big clear" id="clear">清除</button></div><div class="label">常用語（長按可儲存目前句子）</div><div id="favorites"></div><div class="label">簡拼輸入</div><div id="sequence">請按每個字的第一個注音</div><div class="hint">例如：「我要喝水」→ ㄨ　ㄧ　ㄏ　ㄕ；灰色按鍵表示目前沒有可接續的預測。</div><div class="label">預測詞句</div><div id="cands"></div></section><section class="keyboard"><div id="keys"></div></section><footer>
 <div class="dev-credit">國立臺南大學特教系 臧永佳 AI設計開發</div>
 <div class="source-credit">字音資料：教育部《國語辭典簡編本》（2026-09-29）；注音發音：教育部《國語注音符號手冊》（CC BY 4.0）</div>
-</footer></main><script src="app.js?v=6.0.7.3"></script></body></html>
+</footer></main><script src="app.js?v=6.0.8.3"></script></body></html>
