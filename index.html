@@ -68,7 +68,96 @@ html,body{max-width:100%;overflow-x:hidden}
 }
 </style>
 
+
+<style id="responsive-v607-strong">
+/* Strong tablet overrides — intentionally later than all previous CSS */
+@media (min-width: 768px) and (max-width: 1500px){
+  body{padding-left:8px!important;padding-right:8px!important}
+  .wrap{
+    width:98vw!important;
+    max-width:none!important;
+    margin:0 auto!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  .card{
+    width:100%!important;
+    max-width:none!important;
+    box-sizing:border-box!important;
+    padding:16px 18px!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  h1{font-size:38px!important;margin:4px 0 12px!important}
+  .top{gap:10px!important}
+  #sentence{
+    min-height:86px!important;
+    font-size:32px!important;
+    border-width:3px!important;
+  }
+  .speak,.clear{
+    min-width:88px!important;
+    min-height:82px!important;
+    font-size:26px!important;
+  }
+  .favrow{gap:8px!important}
+  .fav{
+    min-height:66px!important;
+    font-size:22px!important;
+    padding:8px!important;
+  }
+  #seq{
+    min-height:66px!important;
+    font-size:32px!important;
+    padding:10px 14px!important;
+  }
+  #cands{min-height:66px!important}
+  .cand{
+    min-height:58px!important;
+    font-size:24px!important;
+    padding:10px 16px!important;
+  }
+  .keyboard{
+    width:100%!important;
+    max-width:none!important;
+    box-sizing:border-box!important;
+    padding:10px!important;
+    margin-top:8px!important;
+  }
+  .keys{
+    width:100%!important;
+    max-width:none!important;
+    gap:7px!important;
+  }
+  .key{
+    min-width:0!important;
+    min-height:72px!important;
+    height:72px!important;
+    font-size:34px!important;
+    padding:4px!important;
+  }
+  footer{
+    margin-top:8px!important;
+    padding:8px!important;
+    font-size:17px!important;
+    line-height:1.4!important;
+  }
+}
+/* iPad landscape: use nearly the entire horizontal canvas */
+@media (min-width: 1024px) and (orientation: landscape) and (max-width: 1500px){
+  .wrap{width:99vw!important}
+  .card{padding:14px 16px!important}
+  .keyboard{padding:8px!important}
+  .key{height:76px!important;min-height:76px!important;font-size:36px!important}
+}
+/* Phones remain compact and independent from tablet sizing */
+@media (max-width: 767px){
+  .wrap{width:100%!important;max-width:none!important}
+  .key{min-height:52px!important;height:auto!important}
+}
+</style>
+
 </head><body><main><section class="panel"><h1>注音簡拼發聲板</h1><div class="top"><div id="sentence"></div><button class="big speak" id="speak">🔊</button><button class="big clear" id="clear">清除</button></div><div class="label">常用語（長按可儲存目前句子）</div><div id="favorites"></div><div class="label">簡拼輸入</div><div id="sequence">請按每個字的第一個注音</div><div class="hint">例如：「我要喝水」→ ㄨ　ㄧ　ㄏ　ㄕ；灰色按鍵表示目前沒有可接續的預測。</div><div class="label">預測詞句</div><div id="cands"></div></section><section class="keyboard"><div id="keys"></div></section><footer>
 <div class="dev-credit">國立臺南大學特教系 臧永佳 AI設計開發</div>
 <div class="source-credit">字音資料：教育部《國語辭典簡編本》（2026-09-29）；注音發音：教育部《國語注音符號手冊》（CC BY 4.0）</div>
-</footer></main><script src="app.js?v=6.0.6.3"></script></body></html>
+</footer></main><script src="app.js?v=6.0.7.3"></script></body></html>
