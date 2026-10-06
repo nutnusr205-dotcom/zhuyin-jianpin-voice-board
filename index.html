@@ -6,7 +6,69 @@
  .source-credit{font-size:13px;padding:0 6px}
 }
 
-</style></head><body><main><section class="panel"><h1>注音簡拼發聲板</h1><div class="top"><div id="sentence"></div><button class="big speak" id="speak">🔊</button><button class="big clear" id="clear">清除</button></div><div class="label">常用語（長按可儲存目前句子）</div><div id="favorites"></div><div class="label">簡拼輸入</div><div id="sequence">請按每個字的第一個注音</div><div class="hint">例如：「我要喝水」→ ㄨ　ㄧ　ㄏ　ㄕ；灰色按鍵表示目前沒有可接續的預測。</div><div class="label">預測詞句</div><div id="cands"></div></section><section class="keyboard"><div id="keys"></div></section><footer>
+</style>
+<style id="responsive-v606">
+/* v6.0.6 responsive layout: phone stays compact; tablets use available space. */
+html,body{max-width:100%;overflow-x:hidden}
+.wrap{width:min(96%,1180px);max-width:1180px;margin-left:auto;margin-right:auto}
+.keyboard{width:100%;box-sizing:border-box}
+.keys{width:100%;box-sizing:border-box}
+.key{min-width:0}
+
+/* iPhone / narrow phones */
+@media (max-width: 600px){
+  .wrap{width:100%;max-width:none;padding-left:8px;padding-right:8px;box-sizing:border-box}
+  .card{padding:12px}
+  h1{font-size:clamp(24px,7vw,32px)}
+  .top{gap:8px}
+  #sentence{min-height:64px;font-size:24px}
+  .speak,.clear{min-width:58px;min-height:58px}
+  .favrow{gap:6px}
+  .fav{min-width:0;padding:10px 5px;font-size:16px}
+  #seq{font-size:24px;min-height:54px;padding:10px}
+  .cand{font-size:18px;padding:10px 12px;min-height:48px}
+  .keyboard{padding:8px}
+  .key{font-size:clamp(20px,6vw,28px);min-height:52px;padding:4px}
+  footer{font-size:13px;line-height:1.45;padding:12px 6px}
+}
+
+/* iPad portrait / medium tablets */
+@media (min-width: 601px) and (max-width: 1024px){
+  .wrap{width:96%;max-width:none}
+  .card{padding:18px}
+  h1{font-size:34px}
+  #sentence{min-height:82px;font-size:30px}
+  .speak,.clear{min-width:76px;min-height:76px;font-size:24px}
+  .fav{font-size:20px;min-height:62px}
+  #seq{font-size:30px;min-height:66px}
+  .cand{font-size:22px;min-height:54px;padding:11px 16px}
+  .keyboard{padding:12px}
+  .key{font-size:30px;min-height:68px}
+  footer{font-size:16px;padding:14px 8px}
+}
+
+/* iPad landscape and larger tablets */
+@media (min-width: 1025px) and (max-width: 1500px){
+  .wrap{width:94%;max-width:1380px}
+  .card{padding:20px 22px}
+  h1{font-size:36px}
+  #sentence{min-height:86px;font-size:32px}
+  .speak,.clear{min-width:82px;min-height:82px;font-size:25px}
+  .fav{font-size:21px;min-height:66px}
+  #seq{font-size:31px;min-height:68px}
+  .cand{font-size:23px;min-height:56px;padding:12px 17px}
+  .keyboard{padding:14px}
+  .key{font-size:32px;min-height:72px}
+  footer{font-size:17px;padding:14px 8px 18px}
+}
+
+/* desktop: don't stretch excessively */
+@media (min-width:1501px){
+  .wrap{width:92%;max-width:1380px}
+}
+</style>
+
+</head><body><main><section class="panel"><h1>注音簡拼發聲板</h1><div class="top"><div id="sentence"></div><button class="big speak" id="speak">🔊</button><button class="big clear" id="clear">清除</button></div><div class="label">常用語（長按可儲存目前句子）</div><div id="favorites"></div><div class="label">簡拼輸入</div><div id="sequence">請按每個字的第一個注音</div><div class="hint">例如：「我要喝水」→ ㄨ　ㄧ　ㄏ　ㄕ；灰色按鍵表示目前沒有可接續的預測。</div><div class="label">預測詞句</div><div id="cands"></div></section><section class="keyboard"><div id="keys"></div></section><footer>
 <div class="dev-credit">國立臺南大學特教系 臧永佳 AI設計開發</div>
 <div class="source-credit">字音資料：教育部《國語辭典簡編本》（2026-09-29）；注音發音：教育部《國語注音符號手冊》（CC BY 4.0）</div>
-</footer></main><script src="app.js?v=6.0.5.3"></script></body></html>
+</footer></main><script src="app.js?v=6.0.6.3"></script></body></html>
