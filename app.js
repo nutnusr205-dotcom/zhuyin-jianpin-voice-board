@@ -37,23 +37,7 @@ function sentenceBonus(text){
 }
 
 
-const PREFERRED_BY_SIG={
-  "ㄨ":["我","無","五","午","物"],
-  "ㄧ":["要","有","一","也","以"],
-  "ㄔ":["吃","出","去","吃"],
-  "ㄏ":["喝","好","會","回","很"],
-  "ㄈ":["飯","放","分","方","房"],
-  "ㄐ":["雞","就","今","家","見"],
-  "ㄆ":["排","跑","朋","票"],
-  "ㄎ":["咖","看","可","開"],
-  "ㄌ":["來","了","裡","離"],
-  "ㄑ":["去","請","前","起"],
-  "ㄗ":["在","再","早","走"],
-  "ㄇ":["買","沒","嗎","明"],
-  "ㄋ":["你","能","那","哪"],
-  "ㄊ":["他","她","台","臺"],
-  "ㄒ":["想","系","現","喜"]
-};
+const PREFERRED_BY_SIG={"ㄅ":["不","把","被","吧","爸","班","白","百","本","比","別","幫","辦"],"ㄆ":["朋","跑","怕","票","平","拍","排","陪"],"ㄇ":["沒","嗎","買","媽","明","門","每","忙","美"],"ㄈ":["飯","放","分","方","房","發","反","風","法"],"ㄉ":["的","到","都","對","大","等","東","點","多","帶","但","電","店"],"ㄊ":["他","她","台","臺","太","天","聽","同","頭","停","特"],"ㄋ":["你","那","哪","能","拿","呢","年","內","南","難"],"ㄌ":["了","來","裡","離","兩","老","路","冷","累","連"],"ㄍ":["個","跟","給","高","過","更","剛","工","公","國","關"],"ㄎ":["可","看","開","快","口","課","空","咖","考","客"],"ㄏ":["好","喝","會","回","很","還","後","和","話","換","火"],"ㄐ":["就","今","家","見","叫","幾","進","記","間","雞","教"],"ㄑ":["去","請","前","起","錢","清","親","氣","球","全"],"ㄒ":["想","現","喜","先","小","下","學","洗","新","心","休","謝","寫","系"],"ㄓ":["這","只","找","知","直","指","紙","真","站","張","中","種","重","住","準","桌"],"ㄔ":["吃","出","車","穿","床","常","長","超","茶","唱"],"ㄕ":["是","上","什","時","說","水","手","少","生","書","事","睡"],"ㄖ":["人","日","熱","讓","如","肉","認","然","入"],"ㄗ":["在","再","早","走","做","坐","怎","最","總","自","字"],"ㄘ":["才","從","次","菜","錯","餐","參","草","廁"],"ㄙ":["三","四","送","所","算","隨","雖","死","色","速"],"ㄧ":["要","有","一","也","以","已","用","又","因","應","意"],"ㄨ":["我","無","五","午","物","外","玩","晚","問","往","完"],"ㄩ":["與","雨","魚","語","月","原","遠","園","願","運"],"ㄚ":["啊","阿"],"ㄛ":["喔","哦"],"ㄜ":["餓","二","額"],"ㄝ":["也"],"ㄞ":["愛","矮"],"ㄟ":["欸"],"ㄠ":["要"],"ㄡ":["有","偶"],"ㄢ":["安","按"],"ㄣ":["恩"],"ㄤ":["昂"],"ㄥ":["嗯"],"ㄦ":["二","兒"]};
 const PREFERRED_PHRASE={
   "ㄨㄧ":["我要"],
   "ㄨㄒ":["我想"],
@@ -65,7 +49,21 @@ const PREFERRED_PHRASE={
   "ㄍㄌㄊㄋㄉㄒ":["國立臺南大學"],
   "ㄊㄐ":["特教"],
   "ㄊㄐㄒ":["特教系"]
-};
+}
+PREFERRED_PHRASE["ㄒㄒ"]=["學校"];
+PREFERRED_PHRASE["ㄉㄒ"]=["東西"];
+PREFERRED_PHRASE["ㄎㄈ"]=["咖啡"];
+PREFERRED_PHRASE["ㄔㄈ"]=["吃飯"];
+PREFERRED_PHRASE["ㄐㄆ"]=["雞排"];
+PREFERRED_PHRASE["ㄏㄔㄓ"]=["火車站"];
+PREFERRED_PHRASE["ㄧㄌ"]=["飲料"];
+PREFERRED_PHRASE["ㄨㄇ"]=["我們"];
+PREFERRED_PHRASE["ㄋㄇ"]=["你們"];
+PREFERRED_PHRASE["ㄓㄉ"]=["知道"];
+PREFERRED_PHRASE["ㄒㄗ"]=["現在"];
+PREFERRED_PHRASE["ㄉㄉ"]=["等等"];
+PREFERRED_PHRASE["ㄏㄐ"]=["回家"];
+;
 
 const SIG_INDEX=(()=>{
   const map=new Map();
@@ -170,23 +168,20 @@ function matches(){
   if(!s.size)Object.keys(CHAR_BY_INITIAL).forEach(k=>s.add(k));
   return s;
 }function renderCandidates(){
-  let b=$('#cands');b.innerHTML='';
-  if(!seq){b.innerHTML='<span style="color:#788;padding:8px">輸入簡拼後會出現預測詞句</span>';return}
-  const all=[],seen=new Set();
-  for(const x of [...compose(seq,18),...matches().slice(0,18)]){
-    if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}
-    if(all.length>=18)break;
-  }
-  if(!all.length){
-    const k=seq[seq.length-1];
-    (CHAR_BY_INITIAL[k]||[]).slice(0,18).forEach(w=>all.push([w,k,1]));
-  }
-  all.forEach(([w])=>{
-    const x=document.createElement('button');x.className='cand';x.textContent=w;
-    x.onclick=()=>{sentence+=w;$('#sentence').textContent=sentence;say(w);seq='';renderAll()};
-    b.appendChild(x);
-  });
-  if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有候選字詞。</span>';
+let b=$('#cands');b.innerHTML='';if(!seq){b.innerHTML='<span style="color:#788;padding:8px">輸入簡拼後會出現預測詞句</span>';return}
+const all=[],seen=new Set();
+if(seq.length===1){
+ const sig=seq,raw=SIG_INDEX.get(sig)||[],preferred=PREFERRED_BY_SIG[sig]||[];
+ for(const w of preferred){const hit=raw.find(x=>x[0]===w);if(hit&&!seen.has(w)){seen.add(w);all.push(hit)}}
+ for(const x of raw){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}if(all.length>=80)break}
+ const words=LEX.filter(x=>x[1].startsWith(sig)&&x[1].length>1).sort((a,b)=>(b[2]||0)-(a[2]||0)||a[1].length-b[1].length);
+ for(const x of words){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}if(all.length>=100)break}
+}else{
+ for(const x of [...compose(seq,40),...matches().slice(0,40)]){if(!seen.has(x[0])){seen.add(x[0]);all.push(x)}if(all.length>=50)break}
+}
+if(!all.length){const k=seq[seq.length-1];(CHAR_BY_INITIAL[k]||[]).forEach(w=>{if(!seen.has(w)){seen.add(w);all.push([w,k,1])}})}
+all.forEach(([w])=>{const x=document.createElement('button');x.className='cand';x.textContent=w;x.onclick=()=>{sentence+=w;$('#sentence').textContent=sentence;say(w);seq='';renderAll()};b.appendChild(x)});
+if(!all.length)b.innerHTML='<span style="color:#b45;padding:8px">目前沒有候選字詞。</span>';
 }function renderKeys(){let b=$('#keys'),allow=nextAllowed();b.innerHTML='';LAYOUT.flat().forEach(k=>{if(k===null){let z=document.createElement('div');z.className='key blank';b.appendChild(z);return;}let x=document.createElement('button');x.className='key';x.textContent=k;x.disabled=!allow.has(k);x.onclick=()=>{seq+=k;phoneticSay(k);renderAll()};b.appendChild(x)});let d=document.createElement('button');d.className='key del';d.textContent='⌫';d.style.gridColumn='1 / span 2';d.onclick=()=>{if(seq)seq=seq.slice(0,-1);else{sentence=sentence.slice(0,-1);$('#sentence').textContent=sentence}renderAll()};b.appendChild(d)}
 const amap={'ㄅ':1,'ㄆ':2,'ㄇ':3,'ㄈ':4,'ㄉ':5,'ㄊ':6,'ㄋ':7,'ㄌ':8,'ㄍ':9,'ㄎ':10,'ㄏ':11,'ㄐ':12,'ㄑ':13,'ㄒ':14,'ㄓ':15,'ㄔ':16,'ㄕ':17,'ㄖ':18,'ㄗ':19,'ㄘ':20,'ㄙ':21,'ㄚ':22,'ㄛ':23,'ㄜ':24,'ㄝ':25,'ㄞ':26,'ㄟ':27,'ㄠ':28,'ㄡ':29,'ㄢ':30,'ㄣ':31,'ㄤ':32,'ㄥ':33,'ㄦ':34,'ㄧ':35,'ㄨ':36,'ㄩ':37};function phoneticSay(k){let n=amap[k];if(n)new Audio(`audio/zhuyin-${String(n).padStart(2,'0')}.mp3`).play().catch(()=>{})}function renderAll(){$('#sequence').textContent=seq?seq.split('').join('　'):'請按每個字的第一個注音';renderCandidates();renderKeys()}
-let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4.0.6');
+let favs=JSON.parse(localStorage.getItem('jianpinFavs')||'null')||['我要','不要','幫忙','上廁所','休息'];function renderFavs(){let b=$('#favorites');b.innerHTML='';favs.forEach((w,i)=>{let x=document.createElement('button');x.className='fav';x.textContent=w;let timer,long=false;x.onpointerdown=()=>{long=false;timer=setTimeout(()=>{long=true;if(sentence){favs[i]=sentence;localStorage.setItem('jianpinFavs',JSON.stringify(favs));renderFavs()}},750)};x.onpointerup=()=>{clearTimeout(timer);if(!long){sentence+=favs[i];$('#sentence').textContent=sentence;say(favs[i])}};x.onpointercancel=()=>clearTimeout(timer);b.appendChild(x)})}$('#speak').onclick=()=>say(sentence);$('#clear').onclick=()=>{sentence='';seq='';$('#sentence').textContent='';renderAll()};renderFavs();renderAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=5.0');
